@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: choose-joint-for-panels
+expected_outcome: |
+  Picks the flexible T-slot (or eye slot with grip fins) over a plain tongue or T-slot, explains why rigid clearances fail across printers, gives flange thickness, preload, flange length, slot tilt, neck clearance, 45 degree chamfers, first-layer notes, and warns about PLA creep on preloaded flanges.

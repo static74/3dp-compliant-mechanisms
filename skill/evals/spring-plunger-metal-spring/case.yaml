@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: spring-plunger-metal-spring
+expected_outcome: |
+  Chooses a metal spring because of travel and preload, offers the printed-spring alternative, selects the barbed one-way plunger or the pause method and says which and why, gives barb geometry (30 degree lead-in, 90 degree catch, barb height, slot width, counterbore), plunger-on-its-side orientation, bore clearance over spring OD, and preload guidance.

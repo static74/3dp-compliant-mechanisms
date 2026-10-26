@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: lid-fits-any-printer
+expected_outcome: |
+  Recommends a compliant lid (grip fins by default) over clearance tuning, gives tagged dimensions including fin thickness as a perimeter multiple, slit width, pitch, slant angle, 0.3 mm relief gap, flange-down orientation with fins flexing in XY, material caveat for preloaded PLA, and CAD steps.
