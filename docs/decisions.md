@@ -30,4 +30,12 @@ Two with-skill runs (grip-fin lid for a 60 × 40 enclosure; barbed PETG plunger 
 
 ## 2026-10-26 Iteration-1 benchmark: 100 % with skill vs 43 % without
 
-Three eval cases, one run each per configuration, Sonnet. With skill 14/14 assertions; without skill 6/14 (43 %). The baseline answers were competent engineering (loose lip plus cantilever arms; tapered dovetail; screwed-cap plunger) but none used a preloaded compliant feature, a relief gap, provenance tags, or the barbed/pause capture rule. Cost: about +10 s and +12 k tokens per answer. Grading flagged two weak assertions (a conditional that passed vacuously, and one written for the flexible T-slot when the skill legitimately chose the grip-fin eye); both reworded. Outputs and benchmark in `docs/eval-runs/`.
+Three eval cases, one run each per configuration, Sonnet. With skill 14/14 assertions at the time of the run (15 after a post-run grader was added); without skill 6/14 (43 %). The baseline answers were competent engineering (loose lip plus cantilever arms; tapered dovetail; screwed-cap plunger) but none used a preloaded compliant feature, a relief gap, provenance tags, or the barbed/pause capture rule. Cost: about +10 s and +12 k tokens per answer. Grading flagged two weak assertions (a conditional that passed vacuously, and one written for the flexible T-slot when the skill legitimately chose the grip-fin eye); both reworded. Outputs and benchmark in `docs/eval-runs/`.
+
+## 2026-10-26 Codex (gpt-6-astra, high) adversarial review, five rounds
+
+Question: is the skill's geometry internally consistent and buildable, judged by a second model with no stake in it?
+
+Five read-only rounds (`docs/reviews/2026-10-26-codex-astra-log.md`). Round 1 found 17 defects, most real: plunger cavity formula erased the preload, the Ø6 prong recipe did not close, flat chord was 0.4·D instead of 0.71·D, fin depth used cos for sin, a rigid rail reconnected the fins, the snap-fit example broke its own L/t rule, sustained-strain limits were presented as sourced. Rounds 2–3 drove the plunger to a closed design (uniform Ø6, local ears, Ls + Lb = Ln + s), the lid to a sized error budget (PLA fins 13.5 mm at δ_max 0.5), the flexible T to explicit n/W/R geometry, and method B to a bayonet-cap capture with datums. Round 4 caught that an aborted edit batch had left six fixes off disk; round 5 confirmed them and left two small items, applied afterwards by Claude. The skill is materially different from the one the iteration-1 benchmark measured; that benchmark is historical only.
+
+Rejected: dropping the two-method spring-capture rule (user requirement), and regenerating the iteration-1 eval answers (kept as history).

@@ -14,7 +14,7 @@ A cantilever beam with a hook, bump or lip at its tip deflects over a mating edg
 | Root thickness t | 1.8 mm (4 perimeters) | 1.35–2.7 | `[source: Hubs ≥1 mm; Prusa KB multiples]` |
 | Tip thickness | 0.9 mm (taper to t/2) | ≥ 0.9 | `[source: Bayer taper]` |
 | Width b | 6 mm | ≥ 5 | `[source: Hubs]` |
-| Length L | solve L = √(y·t/(1.09·ε)) with tapered beam; PLA releasable at y=0.8, t=1.8 gives 10.5 mm | L/t 8–12 | `[source: Bayer]` |
+| Length L | solve L = √(y·t/(1.09·ε)) for a beam tapered to exactly t/2, else L = √(y·t/(0.67·ε)) | L/t ≥ 5 (≥ 10 for the formula to be accurate; below that it is conservative) | `[source: Bayer, BASF]` |
 | Undercut / hook depth y | 0.8 mm | 0.6–1.2 (must exceed gap + 0.2 mm print error) | `[source: Hubs; derived]` |
 | Insertion angle α | 30° | 20–35° | `[source: Bayer]` |
 | Return angle α′ permanent | 90° | ≥ 63° self-locks | `[source: BASF; derived]` |
@@ -22,7 +22,7 @@ A cantilever beam with a hook, bump or lip at its tip deflects over a mating edg
 | Root fillet | 0.6·t ≈ 1.1 mm | ≥ 0.38 | `[source: Bayer]` |
 | Mating gap (sides of the beam/tab) | 0.3 mm | 0.25 PLA/PETG, 0.35–0.5 ABS/ASA | `[source: Fictiv, Qidi]` |
 
-Worked example (PLA, releasable, copy for any tab): t 1.8→0.9, b 6, y 0.8, ε 1.2 % → L 10.5 mm, deflection force ≈ 8.5 N, insertion ≈ 13 N at α 30°, removal ≈ 26 N at α′ 45°. At α′ 90° it is permanent.
+Worked example (PLA, releasable, copy for any tab): t 1.8→0.9 (half-thickness taper, so the 1.09 factor applies), b 6, y 0.8, ε 1.2 % → L = √(0.8·1.8/(1.09·0.012)) = 10.5 mm, L/t = 5.8 (above the 5 floor; the formula is conservative here). Deflection force ≈ 8.5 N, insertion ≈ 13 N at α 30°, removal ≈ 26 N at α′ 45°; at α′ 90° it is permanent. For a slimmer tab (t 1.35→0.9, ratio 0.67, not a half taper) use the 0.67 factor: L = √(0.8·1.35/(0.67·0.012)) = 11.6 mm, L/t = 8.6.
 
 ## Variants
 
@@ -42,7 +42,7 @@ Two prongs like a tuning fork press against the outer walls of a slot; small bum
 Profile in XY, extruded in Z. Overhanging hook faces ≤ 45°. 3+ perimeters; infill irrelevant for beams under 2.7 mm because they are all wall. PETG or ASA if the joint cycles often; PLA fine for a few cycles.
 
 ## Model it
-1. Sketch the beam profile (root t, linear taper to t/2, hook with α and α′ faces) on the XY plane.
+1. Sketch the beam profile on the XY plane: root t, tip thickness t_tip (≥ 0.9 mm; equal to t/2 only when t ≥ 1.8, otherwise 0.9), linear taper between them, hook with α and α′ faces. Use the 1.09 factor only if t_tip = t/2 exactly, else 0.67.
 2. Extrude width b.
 3. Fillet the root at 0.6·t.
 4. Cut the mating slot/cavity with gap per the table; cut the undercut pocket y deep where the hook lands.
@@ -52,7 +52,7 @@ Profile in XY, extruded in Z. Overhanging hook faces ≤ 45°. 3+ perimeters; in
 Too stiff or breaks: lengthen L or thin the tip (never below 0.9). Will not hold: deepen y, raise α′ toward 90°. Hard to insert: lower α to 20–25°, round the hook nose. Loose after a week in PLA: switch to PETG or halve ε.
 
 ## Failure modes
-- Snaps at root: fillet missing, L/t under 8, or beam built in Z. Add fillet, lengthen, reorient.
+- Snaps at root: fillet missing, L/t under 5, or beam built in Z. Add fillet, lengthen, reorient.
 - Hook shears off: undercut deeper than tip thickness allows; make tip ≥ 0.9 mm.
 - Never latches: y smaller than gap + print error. Raise y to ≥ 0.6 + gap.
 - Flange droops in print: underside steeper than 45°; chamfer it.

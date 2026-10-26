@@ -21,7 +21,7 @@ Layers run along the pin, so it is strong in bending.
 Fail in interlayer shear at the base, so keep them short and fat.
 | Parameter | Default | Tag |
 |---|---|---|
-| Diameter | ≥ 5 mm (below that, fillet the base and make it solid with micro-slots) | `[source: Hubs]` |
+| Diameter | ≥ 5 mm (below that, fillet the base and raise wall density with micro-slots or 100 % infill; see fundamentals §10 caveat) | `[source: Hubs]` |
 | Height | as short as possible, L/d ≤ 1.5 | `[video; ratio judgment]` |
 | Hole oversize | 0.25 mm diametral; up to 0.5 for ABS/ASA/nylon | `[video]` |
 | Hole lead-in | fillet or 45° chamfer funnel, 0.5–1.0 mm | `[video; size judgment]` |
@@ -34,7 +34,7 @@ Fail in interlayer shear at the base, so keep them short and fat.
 Plus-shaped section instead of a cylinder: ribs run in line with the load, and the cross wears in on repeated insertion so the outer walls never bind. Height 10 mm, draft 1.5° `[video panel]`; arms 1.35–2.0 mm (3–4 perimeters) so each arm is solid wall `[source: Prusa KB; video slicer view]`. Matching plus-shaped hole with lead-in chamfer and 0.25 mm diametral clearance.
 
 ### Fluted pin with internal cross and micro-slots (E4) `[video]` (Slant's final design)
-Cylinder whose rim is scalloped with ~16 half-round flutes `[measured estimate]`, an internal cross, and 0.2 mm slots that run from the tip through the base and 2–5 mm into the body so the whole pin prints as solid wall (fundamentals §10). Maximum material at the outer edge where cracks start. Same hole rules as E2.
+Cylinder whose rim is scalloped with ~16 half-round flutes `[measured estimate]`, an internal cross, and 0.2 mm slots that run from the tip through the base and 2–5 mm into the body so the pin prints as stacked walls rather than infill (fundamentals §10; the slots remain voids and the technique is unqualified until compared with a solid control). Maximum material at the outer edge where cracks start. Same hole rules as E2.
 
 ## Model it (vertical pin)
 1. Sketch the pin section (circle, plus, or fluted circle) on the top face.
@@ -44,9 +44,9 @@ Cylinder whose rim is scalloped with ~16 half-round flutes `[measured estimate]`
 5. Optional: sketch 0.2 mm wide slots across the pin section, spaced ~1 mm, extrude-cut from the tip to 2–5 mm below the base.
 
 ## Tune it
-Loose: switch to a cross or fluted section that wears in, not a tighter hole. Cracks the hole: add draft, reduce height, chamfer the hole mouth. Pin breaks: shorten, fatten, fillet the base, or print it horizontal.
+Loose: widen the cross arms or raise the draft so the base interferes more (contact size is what sets grip); wear-in only conforms a tight fit, it never tightens a loose one. Do not shrink the hole below 0.25 mm diametral. Cracks the hole: add draft, reduce height, chamfer the hole mouth. Pin breaks: shorten, fatten, fillet the base, or print it horizontal.
 
 ## Failure modes
 - Hole oblong or sagging (horizontal): use teardrop or diamond.
-- Pin shears at base (vertical): short, fat, filleted, or micro-slotted solid.
+- Pin shears at base (vertical): short, fat, filleted, or wall-dense (micro-slots, tested against a solid control).
 - Round peg printed horizontally snaps: it is in-plane with layers only along one axis; use a square/diamond peg.
