@@ -1,64 +1,81 @@
-# Redesign: grip-fin lid for the 60 x 40 mm enclosure
+# Redesign: one 60 x 40 mm snap lid that fits PLA on an MK4 and PETG on a Bambu
 
 ## Mechanism and why
-Use the **grip-fin lid** (compliant-lids.md, mechanism D, the skill's default removable lid). Your lid fails because it relies on a fixed clearance. Clearance moves with filament, machine and material, so the same file is tight on your MK4 and loose on the Bambu in PETG. A grip-fin lid carries a rigid locating plug plus a ring of slanted in-plane cantilever fins. The fins accept a range of plug sizes and spring back, so one file serves both printers. This is the Slant 3D method: do not tune clearance, make the geometry flex. It also needs no metal spring.
 
-I chose the "strain-safe" fin recipe, not Slant's thicker fins. PLA creeps under sustained preload, and a lid sits closed for months.
+Replace the rigid snap with a grip-fin plug lid (Slant 3D's default removable lid). The question answered here is "how do I stop tuning a clearance per filament and printer?" Your lid is tight in PLA and loose in PETG because it relies on a fixed clearance, and that clearance moves with filament, machine and slicer. Grip fins make the plug's outer perimeter slightly larger than the opening, and each slanted fin bends in the XY plane to absorb whatever the printer did to the size. About 64 fins share the load, so one printer's error shifts the grip a little instead of deciding between "stuck" and "falls off". In short: use fins that flex, not a gap that must be right.
 
-## Assumptions (replace with your numbers)
-- 60 x 40 mm is the box outside size. Wall 2.4 mm (6 perimeters at 0.4 mm). So the opening is **55.2 x 35.2 mm**, vertical corners R5 outside (R2.6 inside; use the real inside radius).
-- Fins need something to press on, so walls must be at least 2 mm. The lid does not seal; fins leave gaps.
-- 0.4 mm nozzle, 0.2 mm layers. If your wall differs, change only "Opening" and the fin counts; every other value stays.
+## Assumptions (change these and rescale)
 
-## Parameter table
-| Parameter | Value | Tag |
+- The box opening is 60.0 x 40.0 mm, with inside corner radius R3.
+- The box wall is 2.4 mm or thicker (6 perimeters). Fins need that wall to press against. Below 2 mm, this mechanism is the wrong choice.
+- The lid is separate and flange-down, with a flange flush with the box outside.
+- Your PLA and your coworker's PETG both use 0.4 mm nozzles and 0.2 mm layers.
+
+If the true opening differs, keep every number below that is not a length and use the scaling rules at the end.
+
+## Parameters
+
+Sizes in mm unless marked. Tags: [video] stated by Slant 3D, [measured] read from Slant's frames, [derived] calculated from the skill's strain formulas, [judgment] untested engineering judgment.
+
+| Feature | Value | Tag |
 |---|---|---|
-| Lid flange (outer) | 60 x 40 x 3 mm, R5 corners | [judgment] |
-| Plug height above flange | 8 mm (≥ 7 mm free fin height) | [measured, scaled from Slant's 8 mm] |
-| Opening (box inside) | 55.2 x 35.2 mm | your box |
-| Plug nominal size (before slits) | opening + 2 x 0.25 = **55.7 x 35.7 mm** (0.25 mm interference per side; 0.5 only for PETG lids opened often) | [judgment] |
-| Plug corners | solid R5 blocks, no fins through the arc | [measured] |
-| Slit width | 0.5 mm | [video on screen] |
-| Fin thickness | 0.86 mm (two perimeters) | [source: Prusa KB; derived] |
-| Slit angle | 30 degrees from the wall (fins lean, never radial) | [derived] |
-| Slit length | 9.5 mm (depth into plug about 4.75 mm) | [derived, strain <= 0.5 %] |
-| Pitch along the wall | 2.8 mm | [derived from 0.86 + 0.5 and 30 degrees] |
-| Fins, long side (55.7 mm minus two 5 mm corner blocks) | about 16 per side | derived |
-| Fins, short side (35.7 mm minus corners) | about 9 per side | derived |
-| Fin free height | about 7 mm | [measured] |
-| Bottom relief under fins | **0.3 mm** slab removed (0.3 min, 0.5 max) | [video XKrDUnZCmQQ; PrusaSlicer slice_z] |
-| Rigid locating base | keep the lowest 1 mm of plug unslit (the fins end 0.3 mm above flange; see CAD step 6) | [video] |
-| Fin tip | rounded or chamfered lead-in, 0.5-1 mm | [measured] |
-| Flange and plug-top edges | 45 degree chamfer 0.5 mm on bed-side edges; 2 mm fillet on plug top | [video; size judgment] |
+| Flange | 64.8 x 44.8 x 2.4 (opening plus 2 x 2.4 wall), R5.4 corners, 0.5 mm 45 deg chamfer on the bottom edge | [judgment] |
+| Plug height above flange | 10 | [judgment] |
+| Plug footprint, corner blocks (rigid locator) | 59.6 x 39.6 (0.2 per side snug clearance), R2.8 corners | [source: snug locating 0.15-0.20] |
+| Plug footprint at fin faces (undeflected) | 60.5 x 40.5 (0.25 mm interference per side) | [judgment]; PLA wants 0.2, PETG 0.3, so 0.25 serves both |
+| Corner blocks | solid, 4 mm of straight edge from each corner, no fins | [measured] concept, size [judgment] |
+| Fin angle to the wall | 45 deg | [derived] strain-safe recipe |
+| Fin thickness t | 0.9 (two perimeters) | [derived] |
+| Slit width g | 0.9 (safer against fusing than 0.5) | [derived/judgment] |
+| Pitch along the wall | 2.5 | (g + t) / sin 45 = 2.55, rounded; [derived] |
+| Fins, long sides (60) | 20 per side, spread across the 52 mm between corner blocks | [derived] |
+| Fins, short sides (40) | 12 per side, spread across 32 mm | [derived] |
+| Slit length (fin free length) L | 9.8 | [derived], from L = sqrt(1.5 t (delta/cos phi) / eps) with delta 0.25, eps 0.5 % |
+| Slit depth into the plug | 6.9 (L cos 45), leaving the 26 mm core untouched on the short axis | [derived] |
+| Bottom relief under fins | 0.3 mm slab removed under every fin base (never less than 0.3) | [video XKrDUnZCmQQ; PrusaSlicer slice_z] |
+| Rigid rail | lowest 1 mm of the plug wall is NOT slit, above the 0.3 relief, if corner blocks do not touch the box | [judgment] |
+| Fin top | 0.8 rounded lead-in; 1 mm fillet around the plug top edge | [measured] |
+| Pry notch | 3 x 2 mm slot in the flange edge at the middle of one long side | [judgment] |
 
-Strain check (PLA): tip travel perpendicular to the fin is 0.25 x cos30 = 0.22 mm. Strain = 1.5 x y x t / L^2 = 1.5 x 0.22 x 0.86 / 9.5^2 = about 0.31 %. That is under the 0.5 % sustained-preload limit for PLA and well under PETG's 1.0 %.
+Strain check: sustained bending strain per fin is about 0.5 % in PLA (the sustained limit) and about half the PETG limit, so PLA is the governing case. Deflection force is roughly 2.3 N per fin in PLA [derived]. Because PETG is less stiff, it grips a little softer than PLA, and 0.25 mm interference keeps that softer grip above "falls off" on a 64-fin lid [judgment].
 
-Every [judgment] value (flange thickness, 0.25 mm interference, edge chamfers) needs one test print.
+## Orientation
 
-## Print orientation
-- **Flange down on the bed, plug pointing up.** Every fin profile then lies in the XY plane, so bending runs along the deposited lines. A fin built up in Z snaps along layer lines.
-- Layer height 0.3 mm or less; 3 perimeters; no supports; keep Arachne and thin-wall detection at defaults (fin thickness is already a whole perimeter multiple).
-- 45 degree chamfer on the flange's bed-side edge, elephant-foot compensation about 0.2 mm, so the first layer does not flare.
-- Mount the box the usual way (opening up). The box needs no change beyond a smooth, straight inner wall.
+Print the lid flange down, plug up, on both printers. Every fin, slit and corner block then has its profile in the XY plane and bends along the deposited lines, never across layer interfaces. A fin built on its side would snap along the layer lines.
+
+- Chamfer the flange bottom edge 0.5 mm at 45 deg and keep elephant-foot compensation near 0.2 mm in the slicer.
+- 0.2 mm layers (0.3 mm or finer is fine with the 0.3 mm relief), 3 perimeters, no supports, no brim.
+- Keep the slicer's default thin-wall and Arachne behavior. Do not change flow or compensation to "make it fit"; that defeats the design.
+- PETG on the Bambu: use the usual PETG retraction and cooling so the 0.9 mm slits do not string shut. Remove strings with a knife, not by sanding the fin faces.
 
 ## CAD steps (Fusion)
-1. Sketch the 60 x 40 flange, R5 corners, extrude 3 mm. Chamfer the bottom edge loop 0.5 mm at 45 degrees.
-2. On the flange top, sketch the plug at 55.7 x 35.7 mm with corner radius matching the box inside radius plus 0.25 mm. Extrude 8 mm. Fillet the top edge 2 mm.
-3. On the plug top face, sketch one slanted parallelogram along a long edge: 0.5 mm wide, 9.5 mm long, 30 degrees from the wall, starting so the slit opens at the wall. Keep a 5 mm solid corner block at each end.
-4. Linear-pattern it at 2.8 mm pitch (about 16 on long sides). Copy to the short sides (about 9). Circular or mirror-pattern for the opposite sides, skipping the corners.
-5. Extrude-cut the slits down the plug, stopping at the flange top.
-6. Cut a 0.3 mm slab from the fin bases so the fins float above the flange. Retain the solid 1 mm rigid base at the bottom of the plug for alignment, below the fins' free length.
-7. Fillet the fin tops 0.5-1 mm (lead-in).
-8. Export STL at fine tessellation. Open it in the slicer and check the 0.5 mm slits and the 0.3 mm gap survived; exporters sometimes close them.
 
-## Tuning (one test print, then lock the file)
-- Print the lid in PLA on the MK4 and in PETG on the Bambu. Do **not** adjust per printer.
-- Too stiff on both: lengthen slits or thin fins. Too loose on both: raise interference to 0.3 mm per side or thicken fins.
-- Lid loosens over weeks in PLA: that is creep; PETG or ASA, or longer and thinner fins.
-- Fins fused to the flange: the 0.3 mm relief closed; check the mesh.
-- A fin snaps: it was built vertically or the slit is too short.
+1. Sketch the flange 64.8 x 44.8 with R5.4 corners. Extrude 2.4. Chamfer the bottom edge 0.5 mm.
+2. On the flange top, sketch the 60.5 x 40.5 fin envelope offset to R3.2 corners. Extrude 10 mm. This is the plug at fin-face size.
+3. Cut the corner blocks back: sketch a 59.6 x 39.6 R2.8 rectangle and, for the four 4 mm corner zones only, extrude-cut the plug down to it so the blocks locate at 0.2 mm per side. Leave the rest of the perimeter at 60.5 x 40.5 for the fins to occupy.
+4. On the plug top, sketch one slanted parallelogram slit along a long side: 0.9 mm wide, 9.8 mm long, at 45 deg to the wall, entering from the plug edge. Linear-pattern 20 at 2.5 mm pitch starting 4 mm from a corner. Mirror to the other long side.
+5. Repeat on a short side with 12 slits at 2.5 mm pitch, then mirror. Keep slit slant direction consistent (all fins lean the same way around the part).
+6. Extrude-cut all slits down through the plug to 0.3 mm above the flange top, or to the 1 mm rail height if you want the rail.
+7. Cut a 0.3 mm slab under each fin base so the fins float above the flange. Confirm the gap survived when you export the STL; set fine tessellation, because some exporters close a 0.3 mm gap.
+8. Fillet the fin tops 0.8 mm and the plug top edge 1 mm. Cut the 3 x 2 mm pry notch.
 
-## Scope note
-These numbers are FDM starting points. Strain limits come from datasheets with moulded-plastic snap-fit rules, not from printed-beam tests.
+## Tuning (one test print, then done)
 
-SKILL FEEDBACK: The routing worked, and the lids file's strain-safe fin recipe was the right one, but I had to derive the 60 x 40 values myself. The recipe gives fin thickness, pitch and slit length without saying how pitch follows from slit width, fin thickness and angle (I worked out 2.8 mm at 30 degrees), and the "35 fins" and "1.9 mm pitch" belong to the 85 mm part. A scaling rule or small worked example for non-square or small lids would help. The "rigid locating base" instruction is vague about its height, and the relief cut makes it conflict with "slits stop at flange top"; I picked 1 mm unslit base but flagged it unclear. The skill gives no wall-thickness guidance, so I had to assume 2.4 mm. The per-side interference of 0.2-0.3 versus 0.5 is hard to apply with no tie to material. fundamentals.md §12 asks for "CAD steps", but compliant-lids.md "Model" lines are terse for fins. No contradictions beyond the base/relief point.
+This is [judgment] geometry, so print one lid in PLA on the MK4 and one in PETG on the Bambu before releasing. Then adjust one knob and keep a single file:
+
+- Too tight in both: make slits longer (softer) by 1 mm, or delete every fourth fin. Do not reduce interference below 0.2 mm.
+- Too loose in both: make fins thicker to 1.35 mm (three perimeters) and raise the pitch to 3.4 mm, or raise interference to 0.3 mm.
+- Tight in PLA, loose in PETG after that: this is the case where the design already splits the difference. Stay at 0.25 mm interference and lengthen fins slightly; do not make two versions.
+- If a PLA lid stays closed for weeks and loosens, that is creep; PETG or ASA suits a lid that never comes off. Fins bending sustained above 0.5 % creep in PLA.
+
+## Scaling to a different opening
+
+- Fins per side = (side length - 8) / 2.5, rounded down.
+- Corner block length = the box's inside corner radius plus about 1 mm.
+- Pitch p = (g + t) / sin phi. At other angles: 30 deg needs L at least 9.5 mm for the same interference; 45 deg needs 9.8 mm.
+- Slit depth into the plug = L cos phi, plus a 1 mm land. The plug must be at least that deep on its short axis.
+- Fin height = plug height minus the 0.3 mm relief, and at least 5 mm.
+
+## Why this fixes the two-version problem
+
+The rigid corner blocks align the lid within 0.2 mm per side on any printer, and the fins absorb the rest of the size error. Interference of 0.25 mm per side sits between the PLA value (0.2) and the PETG value (0.3), and the fin compliance covers that difference, so the same STL grips both. Verify with the single test print before trusting it.

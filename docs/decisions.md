@@ -27,3 +27,7 @@ Decision: two documented options, both required by the brief. Option A: one-way 
 Question: did the skill produce usable designs on realistic prompts?
 
 Two with-skill runs (grip-fin lid for a 60 × 40 enclosure; barbed PETG plunger with a pen spring) both followed the routing and output format and produced buildable parameter tables; outputs are in `docs/eval-runs/`. Their feedback added: a fin pitch/count/length scaling formula, a box-wall minimum, interference tied to material, rigid-base guidance, pen-spring measurement and cut-to-rate guidance, rotary detent nose geometry, neck-bore vs counterbore terminology, a small-plunger prong note, flat-chord rule, and a pointer to where `docs/research` lives. No baseline (without-skill) runs or graded benchmark were made; the three eval cases under `skill/evals/` are ready for `claude plugin eval`.
+
+## 2026-10-26 Iteration-1 benchmark: 100 % with skill vs 43 % without
+
+Three eval cases, one run each per configuration, Sonnet. With skill 14/14 assertions; without skill 6/14 (43 %). The baseline answers were competent engineering (loose lip plus cantilever arms; tapered dovetail; screwed-cap plunger) but none used a preloaded compliant feature, a relief gap, provenance tags, or the barbed/pause capture rule. Cost: about +10 s and +12 k tokens per answer. Grading flagged two weak assertions (a conditional that passed vacuously, and one written for the flexible T-slot when the skill legitimately chose the grip-fin eye); both reworded. Outputs and benchmark in `docs/eval-runs/`.

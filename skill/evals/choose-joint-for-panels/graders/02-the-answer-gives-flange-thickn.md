@@ -4,4 +4,4 @@ focus: trace
 weight: 1
 ---
 
-The answer gives flange thickness as 0.9 to 1.35 mm, a preload of about 0.3 to 0.5 mm, and a flange length derived from strain
+For the chosen compliant member (T-slot flange or grip fin), the answer gives a thickness in whole perimeter multiples, a preload or interference of about 0.3 to 0.5 mm, and a free length derived from a strain limit
