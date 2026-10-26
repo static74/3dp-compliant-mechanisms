@@ -2,7 +2,7 @@
 
 **Family:** compliant-lid (a plug lid that fits a separately printed box on any printer)
 **Use when:** a lid, cap, plug or insert must fit an opening without tuning clearance per material or machine.
-**Avoid when:** the lid must seal (fins and springs leave gaps) or the box wall is under 2 mm (fins need something to press against).
+**Avoid when:** the lid must seal (fins and springs leave gaps) or the box wall is under 2 mm (fins need something to press against; 2.4–3 mm, 6–7 perimeters, is the comfortable range `[judgment]`).
 **Source:** Slant 3D "Design Compliant Lids for Perfect Tolerance Every Time" (Lids Vol. 2). All geometry is measured from frames against the stated 85 mm footprint unless tagged otherwise.
 
 ## Reference part `[video 85 mm; rest measured]`
@@ -55,12 +55,21 @@ Take the side-spring idea around the whole perimeter: dozens of thin slanted bla
 | Slit length | 7.19 mm; depth into plug ≈ 5.0 mm plus 1.55 mm of sketch beyond the wall | derived, ±0.05 |
 | Fin free height | ≈ 7 mm (the plug height less the relief) | `[measured ±1.5]` |
 | Bottom relief | **0.3 mm** (0.3 min, 0.5 max). Video 1 modelled 0.2 and said 0.3; Slant's tolerance video settles it at 0.3 because slicers cut each layer at mid-height, so a gap under one layer can vanish at 0.25–0.3 mm layers. Use 0.4–0.5 with a 0.6 mm nozzle | `[video XKrDUnZCmQQ 5:27; source: PrusaSlicer slice_z]` |
-| Interference | not visible in frames (fin faces look flush with the corner blocks); 0.2–0.3 mm per side; 0.5 only for PETG lids opened often `[judgment]` | |
+| Interference per side | not visible in frames (fin faces look flush with the corner blocks). PLA 0.2 mm; PETG/ASA 0.3 mm; 0.5 mm only for PETG lids opened often and never left closed for weeks `[judgment]` | |
 | Corners | solid R5 blocks, no fins through the arc | `[measured]` |
 | Fin top | rounded 0.5–1 mm lead-in | `[measured]` |
 Two fin recipes. **As Slant modelled it** `[measured]`: 1.27 mm fins, 1.9 mm pitch, 7.2 mm slits, 65° to the wall. **Strain-safe default** `[derived, held strain ≤ 0.5 %]`: fins 0.86 mm (two perimeters at the slicer's thin-wall width), pitch 2.5–3 mm, length ≥ 10.5 mm at 45° or ≥ 9.5 mm at 30° for 0.3 mm interference, 30–45° from the wall. Slant's thicker, shorter fins run near 0.6–2 % strain and rely on the load being shared by many fins; Slant says they "deflect so little" they do not creep. Offer the measured recipe when the user wants Slant's part, the strain-safe one for PLA lids that stay closed. A radial (90°) fin cannot bend and only buckles; the slant converts radial interference into bending `[derived]`.
 Tune `[video]`: longer fins = softer; thicker = firmer, like any spring.
 Model: sketch one slanted 0.5 mm parallelogram on the plug top face along one edge, linear-pattern 35 at 1.9 mm (or ~26 at 2.5 mm for the strain-safe recipe), circular-pattern ×4 skipping corners, extrude-cut down the plug wall, cut a 0.3 mm slab at the fin bases, fillet fin tops. Keep a rigid locating base below the fins: Slant's pattern is a square rigid plug that aligns the lid, with compliance above it `[video]`. Export STL at fine tessellation and check the 0.3 mm gap survived; Slant saw exporters close it `[video]`.
+
+### Scaling the fins to any lid `[derived]`
+Let φ = fin angle to the wall (Slant 65°, strain-safe 30–45°), t = fin thickness, g = clear slot width perpendicular to the fin (≥ 0.5 mm, one extrusion width; 0.9 mm is safer against fusing).
+- Pitch along the wall p = (g + t) / sin φ. Check: Slant's (0.5 + 1.27)/sin 65° = 1.95 ≈ 1.9 mm measured. Strain-safe at 45°, t 0.86, g 0.9: p = 2.5 mm.
+- Fins per side = (side length − 2 × corner block) / p, rounded down; corner block = corner radius (R5 on Slant's part; use the box's inside radius).
+- Slit length (fin free length) L from strain: L = √(1.5·t·(δ/cos φ)/ε) with δ the per-side interference and ε the sustained limit (PLA 0.5 %, PETG 1 %). Slit depth into the plug ≈ L·cos φ, so the plug must be at least that deep plus a 1 mm land.
+- Fin height = plug height − relief; keep it ≥ 5 mm or the fin is a stub.
+- Rigid locator: the four solid corner blocks locate the lid; the fins only grip. If the box opening is loose enough that the blocks do not touch, leave the lowest 1 mm of the plug wall unslit above the 0.3 mm relief as a rigid rail `[judgment]`.
+- Nozzle 0.6 mm: t = two perimeters at that nozzle's thin-wall width (≈ 1.2–1.3 mm), L grows ≈ 20–25 %, relief 0.4–0.5 mm.
 
 ## E. Internal spring latches `[video; geometry mostly judgment]`
 Small latch blocks in windows on two opposite plug walls, pushed outward by a spring inside the lid, dropping into detents in the box; ~2 mm of travel `[video]`. Harder to design: the roof over the latch cavity can sag and jam the latch `[video]`.

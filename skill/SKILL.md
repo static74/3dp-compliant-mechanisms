@@ -39,5 +39,8 @@ Any mechanism with a spring offers both a printed spring and a metal spring. For
 ## Adding a mechanism
 Copy `references/_template.md`, fill every section with tagged numbers, add one row above, add an eval case under `evals/`, and log it in the repo's `docs/decisions.md`. Keep this file under 300 lines; knowledge lives in the references.
 
+## Where the sources live
+References cite `docs/research/*.md`. Those files are in the repository one directory above this skill (`../docs/research/`), not in the skill folder. They hold every URL and derivation; read them only when a user challenges a number.
+
 ## Scope limits
 These are FDM numbers (0.4 mm nozzle, 0.2 mm layers). Resin and MJF have different clearance and strain rules. Strain values are derived from datasheets with moulded-plastic snap-fit rules, not measured on printed beams; treat them as starting points.

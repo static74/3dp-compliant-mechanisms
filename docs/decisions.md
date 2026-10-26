@@ -21,3 +21,9 @@ Rejected: untagged "recommended values". They would read as tested when they are
 Question: how does a plunger keep a metal spring captive?
 
 Decision: two documented options, both required by the brief. Option A: one-way barbed plunger (cantilever ears, insertion ramp, 90° retention face) that snaps into the bore from outside and cannot be ejected by the spring. Option B: slicer pause (M601 / pause-at-height) at the cavity roof so the spring is placed mid-print and sealed in. The printed-spring path (serpentine or cantilever leaf, flexing in the XY plane) is the default when travel under about 2 mm is enough.
+
+## 2026-10-26 First eval pass drove six fixes
+
+Question: did the skill produce usable designs on realistic prompts?
+
+Two with-skill runs (grip-fin lid for a 60 × 40 enclosure; barbed PETG plunger with a pen spring) both followed the routing and output format and produced buildable parameter tables; outputs are in `docs/eval-runs/`. Their feedback added: a fin pitch/count/length scaling formula, a box-wall minimum, interference tied to material, rigid-base guidance, pen-spring measurement and cut-to-rate guidance, rotary detent nose geometry, neck-bore vs counterbore terminology, a small-plunger prong note, flat-chord rule, and a pointer to where `docs/research` lives. No baseline (without-skill) runs or graded benchmark were made; the three eval cases under `skill/evals/` are ready for `claude plugin eval`.

@@ -53,7 +53,10 @@ Pick from stock; do not design a custom spring. Verified stainless parts (Lee LC
 | LC 026C 05 S | 6.10 | 0.66 | 15.88 | 1.82 | 5.16 | 6.35 |
 | LC 020C 09 S | 6.10 | 0.51 | 19.05 | 0.47 | 4.62 | 6.35 |
 | LC 022D 03 S | 7.62 | 0.56 | 15.88 | 0.74 | 3.10 | 7.95 |
-Any equivalent (pen springs, McMaster 9657K series, assortment kits) works if you measure OD, free length and solid height; those part numbers were not verified.
+Any equivalent (pen springs, McMaster 9657K series, assortment kits) works if you measure it; those part numbers were not verified.
+
+### Using an unknown or pen spring `[judgment; formula is textbook]`
+Measure OD, wire diameter d, free length, solid height, and count active coils n. Rate k = G·d⁴ / (8·D³·n) with D = OD − d (mean diameter) and G ≈ 79 GPa for steel wire; or press it 5 mm on a kitchen scale and divide. Pen springs are long and soft (≈ 0.2–0.5 N/mm). Cut to fewer active coils to raise the rate (k ∝ 1/n) and bring free length / D under 4; grind or bend the cut end flat so it seats. Nest two springs or buy stock for more than ≈ 3–4 N at 3 mm travel.
 
 Design rules:
 | Rule | Value | Tag |
@@ -66,12 +69,19 @@ Design rules:
 | Example | LC 018B 05 S: full deflection 9.35 mm; install at 11.0 mm (1.7 mm, ≈1.7 N); keep ≥ 1.4 mm from solid | `[derived]` |
 | Max force check | rate × max compression must stay well below the force to shear the retaining barbs | `[judgment]` |
 
+## Detent nose geometry
+Linear or one-way latch: 30° insertion ramp, 45° release ramp (90° to hold) `[source: Bayer]`. Rotary or ball detent that must click both ways: symmetric 30–45° ramps or a hemispherical nose of radius ≈ plunger radius/2, pocket depth ≈ half the travel with the rest as margin, pocket width = nose width + 0.6 mm `[judgment]`. Detent force ≈ spring force × tan(ramp angle) plus friction (μ ≈ 0.4–0.5 PETG on PETG, unsourced).
+
 ## Plunger body (either spring)
 Sliding clearance 0.2–0.3 mm per side to the bore `[source: Fictiv; judgment]`. Add a flat on the plunger and bore so it cannot rotate and so the plunger prints on its side `[judgment]`. Detent nose: 30° insertion ramp, 45° release ramp (or 90° to hold) `[source: Bayer]`. Give the plunger an outer shoulder larger than the neck so it cannot be pushed in too far; the retention feature (barbs or sealed roof) stops it coming out.
 
+## Print
+Plunger: on its side on a flat, flexing prongs left and right (see spring-capture.md A orientation). Housing: bore axis horizontal with teardrop sections so the stepped bore needs no support; if the bore must be vertical, open end down so the catch step faces up. 3 perimeters, PETG default. Clearances need one test print.
+
 ## Model it (metal spring, barbed plunger)
-1. Housing: bore = spring OD + 0.5 mm diametral, depth = installed spring length + plunger travel + barb length; neck at the outer face = plunger body + 0.5 mm diametral; counterbore behind the neck per `spring-capture.md` A.
-2. Plunger: detent tip, sliding body, split zone with two prongs and barbs at the inner end (see `spring-capture.md` A for all barb numbers), flat along one side.
+Terms: the **neck bore** is the narrow hole at the housing's outer face that the plunger body slides in (plunger Ø + 0.4–0.6 mm diametral). The **counterbore** is the wider cavity behind it that holds the spring and lets the barbs open (≥ spring OD + 0.5 mm, and ≥ neck Ø + 2 × barb height + 0.5 mm, whichever is larger). Counterbore depth = installed spring length + travel + barb length + 1 mm.
+1. Housing: neck bore, then counterbore to that depth; chamfer the neck mouth 0.5 mm × 45°; keep the catch step (counterbore shoulder) square.
+2. Plunger: detent tip, outer shoulder, sliding body, split zone with two prongs and barbs at the inner end (see `spring-capture.md` A for all barb numbers), flat along one side with chord ≥ 0.4 × Ø so the bed edge stays ≤ 45° `[derived]`. On plungers ≤ Ø6, prongs cannot be 1.5 mm with a 2.3 mm slot; taper them 1.8 → 1.2 mm and accept a narrower slot of 2 × barb + 0.3 mm.
 3. Mating detent pocket in the other part, 1.0–1.5 mm deep with matching ramps.
 4. Spring seat: a flat shoulder at the prong tips so the end coil bears on both prongs and cannot enter the slot.
 
